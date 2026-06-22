@@ -1,11 +1,13 @@
 pipeline {
   agent any
   environment {
-    DOCKER_IMAGE = 'YOUR-DOCKERHUB-USERNAME/yourname-cicd-project'
+    DOCKER_IMAGE = 'sarabatool/sarabatool-cicd'
     IMAGE_TAG = "${BUILD_NUMBER}"
   }
   stages {
-    stage('Checkout') { steps { checkout scm } }
+    stage('Checkout') {
+      steps { checkout scm }
+    }
     stage('Build') {
       steps {
         echo 'Building...'
@@ -33,10 +35,10 @@ pipeline {
     }
     stage('Deploy') {
       steps {
-        sh 'docker stop yourname-cicd-project || true'
-        sh 'docker rm yourname-cicd-project || true'
+        sh 'docker stop sarabatool-cicd || true'
+        sh 'docker rm sarabatool-cicd || true'
         sh 'docker pull $DOCKER_IMAGE:latest'
-        sh 'docker run -d -p 3000:3000 --name yourname-cicd-project $DOCKER_IMAGE:latest'
+        sh 'docker run -d -p 3000:3000 --name sarabatool-cicd $DOCKER_IMAGE:latest'
         echo 'App live at localhost:3000!'
       }
     }
